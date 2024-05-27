@@ -18,5 +18,3 @@ class Friend(db.Model):
       "gender":self.gender,
       "imgUrl":self.img_url,
     }
-
- 
