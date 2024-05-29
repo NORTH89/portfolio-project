@@ -2,7 +2,7 @@
 
 Build a Friend Store with Python(Flask) and JavaScript(React)
 
-![Demo App](https://i.ibb.co/S6Xgb6c/Group-98.png)
+![Demo App]("C:\Users\nordi\OneDrive\Desktop\Untitled-1.png")
 
 
 ### Table of Contents
