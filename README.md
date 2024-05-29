@@ -1,6 +1,8 @@
 # Friend Store 🚀
 
 Build a Friend Store with Python(Flask) and JavaScript(React)
+
+
 ![Untitled-1](https://github.com/NORTH89/portfolio-project/assets/96686686/8a131744-5158-4591-a58d-7756b69f225f)
 
 
