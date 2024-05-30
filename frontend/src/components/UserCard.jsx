@@ -15,66 +15,79 @@ import EditModal from "./EditModal";
 import { BASE_URL } from "../App";
 
 const UserCard = ({ user, setUsers }) => {
+  const { id, imgUrl, name, role, description } = user;
   const toast = useToast();
+
   const handleDeleteUser = async () => {
     try {
-      const res = await fetch(BASE_URL + "/friends/" + user.id, {
+      const res = await fetch(`${BASE_URL}/friends/${id}`, {
         method: "DELETE",
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error);
+        throw new Error(data.error || "Failed to delete friend.");
       }
-      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
+      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== id));
       toast({
         status: "success",
         title: "Success",
         description: "Friend deleted successfully.",
         duration: 2000,
-        position: "top-center",
+        position: "top",
       });
     } catch (error) {
+      console.error("Delete user error:", error);
       toast({
         title: "An error occurred",
         description: error.message,
         status: "error",
         duration: 4000,
         isClosable: true,
-        position: "top-center",
+        position: "top",
       });
     }
   };
+
   return (
-    <Card>
+    <Card
+      sx={{
+        borderWidth: "1px",
+        borderRadius: "lg",
+        overflow: "hidden",
+        boxShadow: "lg",
+        bg: "white",
+        _hover: {
+          boxShadow: "xl",
+        },
+      }}
+    >
       <CardHeader>
         <Flex gap={4}>
           <Flex flex={"1"} gap={"4"} alignItems={"center"}>
-            <Avatar src={user.imgUrl} />
-
+            <Avatar src={imgUrl} />
             <Box>
-              <Heading size="sm">{user.name}</Heading>
-              <Text>{user.role}</Text>
+              <Heading size="sm">{name}</Heading>
+              <Text>{role}</Text>
             </Box>
           </Flex>
-
           <Flex>
             <EditModal user={user} setUsers={setUsers} />
             <IconButton
               variant="ghost"
               colorScheme="red"
               size={"sm"}
-              aria-label="See menu"
+              aria-label="Delete friend"
               icon={<BiTrash size={20} />}
               onClick={handleDeleteUser}
             />
           </Flex>
         </Flex>
       </CardHeader>
-
       <CardBody>
-        <Text>{user.description}</Text>
+        <Text>{description}</Text>
       </CardBody>
     </Card>
   );
 };
+
 export default UserCard;
