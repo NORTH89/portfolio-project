@@ -2,53 +2,79 @@ import {
   Avatar,
   Box,
   Card,
+  CardBody,
   CardHeader,
   Flex,
   Heading,
-  Text,
   IconButton,
-  CardBody,
+  Text,
+  useToast,
 } from "@chakra-ui/react";
 import { BiTrash } from "react-icons/bi";
 import EditModal from "./EditModal";
+import { BASE_URL } from "../App";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, setUsers }) => {
+  const toast = useToast();
+  const handleDeleteUser = async () => {
+    try {
+      const res = await fetch(BASE_URL + "/friends/" + user.id, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error);
+      }
+      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
+      toast({
+        status: "success",
+        title: "Success",
+        description: "Friend deleted successfully.",
+        duration: 2000,
+        position: "top-center",
+      });
+    } catch (error) {
+      toast({
+        title: "An error occurred",
+        description: error.message,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top-center",
+      });
+    }
+  };
   return (
-    <Card
-      padding={4}
-      borderWidth={"1px"}
-      borderRadius={"lg"}
-      marginBottom={4}
-      marginRight={4}
-      marginLeft={4}
-    >
+    <Card>
       <CardHeader>
-        <Flex gap={4} alignItems={"center"}>
-          <Flex flex={"1"} gap={"4"}>
-            <Avatar src="https://avatar.iran.liara.run/public" size={"sm"} />
+        <Flex gap={4}>
+          <Flex flex={"1"} gap={"4"} alignItems={"center"}>
+            <Avatar src={user.imgUrl} />
+
             <Box>
               <Heading size="sm">{user.name}</Heading>
-              <Text fontSize={"sm"}>{user.role}</Text>
+              <Text>{user.role}</Text>
             </Box>
           </Flex>
+
           <Flex>
-            <EditModal />
+            <EditModal user={user} setUsers={setUsers} />
             <IconButton
-              variant="Ghost"
-              size="sm"
-              color={"red.500"}
+              variant="ghost"
+              colorScheme="red"
+              size={"sm"}
+              aria-label="See menu"
               icon={<BiTrash size={20} />}
-            ></IconButton>
+              onClick={handleDeleteUser}
+            />
           </Flex>
         </Flex>
       </CardHeader>
-      <Box marginTop={4}>
-        <CardBody>
-          <Text>{user.description}</Text>
-        </CardBody>
-      </Box>
+
+      <CardBody>
+        <Text>{user.description}</Text>
+      </CardBody>
     </Card>
   );
 };
-
 export default UserCard;
