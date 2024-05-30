@@ -3,13 +3,16 @@ import {
   Button,
   Container,
   Flex,
-  Text,
+  Input,
+  InputGroup,
+  InputLeftElement,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
 import CreateUserModal from "./CreateUserModal";
+import { BiSearch } from "react-icons/bi";
 
 const Navbar = ({ setUsers }) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -29,23 +32,18 @@ const Navbar = ({ setUsers }) => {
             gap={3}
             display={{ base: "none", sm: "flex" }}
           >
-            <img src="/react.png" alt="React logo" width={50} height={50} />
-            <Text fontSize={"40px"}>+</Text>
-            <img src="/python.png" alt="Python logo" width={50} height={40} />
-            <Text fontSize={"40px"}>=</Text>
-
-            <img src="/explode.png" alt="Explode head" width={45} height={45} />
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <BiSearch />
+              </InputLeftElement>
+              <Input
+                placeholder="Search for users"
+                onChange={(e) => setUsers(e.target.value)}
+              />
+            </InputGroup>
           </Flex>
           {/* Right side */}
           <Flex gap={3} alignItems={"center"}>
-            <Text
-              fontSize={"lg"}
-              fontWeight={500}
-              display={{ base: "none", md: "block" }}
-            >
-              BFFship 🔥
-            </Text>
-
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <IoMoon /> : <LuSun size={20} />}
             </Button>
