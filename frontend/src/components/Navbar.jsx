@@ -1,46 +1,45 @@
 import {
   Box,
-  Button,
   Container,
   Flex,
-  Text,
+  Heading,
+  IconButton,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IoMoon } from "react-icons/io5";
-import { LuSun } from "react-icons/lu";
+import { IoMoon, IoSunny } from "react-icons/io5";
 import CreateUserModal from "./CreateUserModal";
 
 const Navbar = ({ setUsers }) => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const navBg = useColorModeValue("gray.200", "gray.700");
+  const navText = useColorModeValue("gray.900", "gray.200");
+  const navShadow = useColorModeValue("lg", "dark-lg");
   return (
-    <Container maxW={"900px"}>
+    <Container maxW={"900px"} mt={8}>
       <Box
-        px={4}
-        my={4}
+        p={4}
         borderRadius={5}
-        bg={useColorModeValue("gray.200", "gray.700")}
+        bg={navBg}
+        boxShadow={navShadow}
+        textAlign={"center"}
       >
-        <Flex h="16" alignItems={"center"} justifyContent={"space-between"}>
+        <Flex alignItems={"center"} justifyContent={"space-between"}>
           {/* Left side */}
-          <Flex
-            alignItems={"center"}
-            justifyContent={"center"}
-            gap={3}
-            display={{ base: "none", sm: "flex" }}
-          >
-            <img src="/react.png" alt="React logo" width={50} height={50} />
-            <Text fontSize={"40px"}>+</Text>
-            <img src="/python.png" alt="Python logo" width={50} height={40} />
-            <Text fontSize={"40px"}>=</Text>
-
-            <img src="/explode.png" alt="Explode head" width={45} height={45} />
+          <Flex alignItems={"center"}>
+            <Heading size={"lg"} color={navText}>
+              React + Python = 💥
+            </Heading>
           </Flex>
           {/* Right side */}
           <Flex gap={3} alignItems={"center"}>
-            <Button onClick={toggleColorMode}>
-              {colorMode === "light" ? <IoMoon /> : <LuSun size={20} />}
-            </Button>
+            <IconButton
+              onClick={toggleColorMode}
+              variant="ghost"
+              colorScheme="blue"
+              aria-label="Toggle color mode"
+              icon={colorMode === "light" ? <IoMoon /> : <IoSunny />}
+            />
             <CreateUserModal setUsers={setUsers} />
           </Flex>
         </Flex>

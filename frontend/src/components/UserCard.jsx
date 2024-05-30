@@ -45,34 +45,25 @@ const UserCard = ({ user, setUsers }) => {
     }
   };
   return (
-    <Card>
-      <CardHeader>
-        <Flex gap={4}>
-          <Flex flex={"1"} gap={"4"} alignItems={"center"}>
-            <Avatar src={user.imgUrl} />
-
-            <Box>
-              <Heading size="sm">{user.name}</Heading>
-              <Text>{user.role}</Text>
-            </Box>
-          </Flex>
-
-          <Flex>
-            <EditModal user={user} setUsers={setUsers} />
-            <IconButton
-              variant="ghost"
-              colorScheme="red"
-              size={"sm"}
-              aria-label="See menu"
-              icon={<BiTrash size={20} />}
-              onClick={handleDeleteUser}
-            />
-          </Flex>
-        </Flex>
-      </CardHeader>
-
+    <Card variant="outline" borderColor="gray.200">
       <CardBody>
-        <Text>{user.description}</Text>
+        <Flex alignItems="center">
+          <Avatar size="sm" src={user.imgUrl} mr={4} />
+          <Flex flex={1} direction="column" alignItems="flex-start">
+            <Heading size="sm">{user.name}</Heading>
+            <Text color="gray.500">{user.role}</Text>
+          </Flex>
+          <EditModal user={user} setUsers={setUsers} />
+          <IconButton
+            variant="ghost"
+            colorScheme="red"
+            size={"sm"}
+            aria-label="Delete"
+            icon={<BiTrash size={20} />}
+            onClick={handleDeleteUser}
+          />
+        </Flex>
+        <Text mt={4}>{user.description}</Text>
       </CardBody>
     </Card>
   );
