@@ -87,7 +87,7 @@ const CreateUserModal = ({ setUsers }) => {
         <ModalOverlay />
         <form onSubmit={handleCreateUser}>
           <ModalContent>
-            <ModalHeader> My new BFF 😍 </ModalHeader>
+            <ModalHeader> Create new friend </ModalHeader>
             <ModalCloseButton />
 
             <ModalBody pb={6}>
@@ -132,6 +132,7 @@ const CreateUserModal = ({ setUsers }) => {
 
               <RadioGroup mt={4}>
                 <Flex gap={5}>
+                  <FormLabel>Gender</FormLabel>
                   <Radio
                     value="male"
                     onChange={(e) =>
