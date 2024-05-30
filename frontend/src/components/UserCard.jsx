@@ -45,7 +45,7 @@ const UserCard = ({ user, setUsers }) => {
     }
   };
   return (
-    <Card>
+    <Card boxShadow="md" borderWidth="1px">
       <CardHeader>
         <Flex gap={4}>
           <Flex flex={"1"} gap={"4"} alignItems={"center"}>
