@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   CardBody,
+  CardHeader,
   Flex,
   Heading,
   IconButton,
@@ -44,31 +45,33 @@ const UserCard = ({ user, setUsers }) => {
     }
   };
   return (
-    <Card variant="outline" borderColor="gray.200" bgColor="gray.100">
-      <CardBody>
-        <Flex alignItems="center" justifyContent="space-between">
-          <Flex flex={1} direction="column" alignItems="flex-start">
-            <Heading size="sm">{user.name}</Heading>
-            <Text color="gray.500">{user.role}</Text>
+    <Card>
+      <CardHeader>
+        <Flex gap={4}>
+          <Flex flex={"1"} gap={"4"} alignItems={"center"}>
+            <Avatar src={user.imgUrl} />
+
+            <Box>
+              <Heading size="sm">{user.name}</Heading>
+              <Text>{user.role}</Text>
+            </Box>
           </Flex>
-          <Flex alignItems="center">
-            <Avatar size="xs" src={user.imgUrl} mr={4} />
-          </Flex>
-        </Flex>
-        <Flex alignItems="center" justifyContent="space-between">
-          <Text>{user.description}</Text>
-          <Flex alignItems="center" flex={1} justifyContent="flex-end">
+
+          <Flex>
             <EditModal user={user} setUsers={setUsers} />
             <IconButton
               variant="ghost"
               colorScheme="red"
               size={"sm"}
-              aria-label="Delete"
+              aria-label="See menu"
               icon={<BiTrash size={20} />}
               onClick={handleDeleteUser}
             />
           </Flex>
         </Flex>
+      </CardHeader>
+      <CardBody>
+        <Text>{user.description}</Text>
       </CardBody>
     </Card>
   );
