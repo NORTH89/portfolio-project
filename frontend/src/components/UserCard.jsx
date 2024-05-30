@@ -88,7 +88,11 @@ const UserCard = ({ user, setUsers }) => {
         </Flex>
       </CardHeader>
       <CardBody>
-        <Text>{description}</Text>
+        <Flex alignItems="start">
+          <Box pl={6}>
+            <Text>{description}</Text>
+          </Box>
+        </Flex>
       </CardBody>
     </Card>
   );
