@@ -9,6 +9,7 @@ import {
   IconButton,
   Text,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { BiTrash } from "react-icons/bi";
 import EditModal from "./EditModal";
@@ -17,6 +18,8 @@ import { BASE_URL } from "../App";
 const UserCard = ({ user, setUsers }) => {
   const { id, imgUrl, name, role, description } = user;
   const toast = useToast();
+  const cardBg = useColorModeValue("white", "gray.700");
+  const cardBorderColor = useColorModeValue("gray.200", "gray.600");
 
   const handleDeleteUser = async () => {
     try {
@@ -55,7 +58,8 @@ const UserCard = ({ user, setUsers }) => {
         borderRadius: "lg",
         overflow: "hidden",
         boxShadow: "lg",
-        bg: "white",
+        bg: cardBg,
+        borderColor: cardBorderColor,
         _hover: {
           boxShadow: "xl",
         },
