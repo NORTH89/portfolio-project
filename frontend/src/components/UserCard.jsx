@@ -44,14 +44,19 @@ const UserCard = ({ user, setUsers }) => {
     }
   };
   return (
-    <Card variant="outline" borderColor="gray.200">
+    <Card variant="outline" borderColor="gray.200" bgColor="gray.100">
       <CardBody>
-        <Flex alignItems="center">
-          <Avatar size="xs" src={user.imgUrl} mr={4} />
+        <Flex alignItems="center" justifyContent="space-between">
           <Flex flex={1} direction="column" alignItems="flex-start">
             <Heading size="sm">{user.name}</Heading>
             <Text color="gray.500">{user.role}</Text>
           </Flex>
+          <Flex alignItems="center">
+            <Avatar size="xs" src={user.imgUrl} mr={4} />
+          </Flex>
+        </Flex>
+        <Flex alignItems="center" justifyContent="space-between">
+          <Text>{user.description}</Text>
           <Flex alignItems="center" flex={1} justifyContent="flex-end">
             <EditModal user={user} setUsers={setUsers} />
             <IconButton
@@ -64,15 +69,8 @@ const UserCard = ({ user, setUsers }) => {
             />
           </Flex>
         </Flex>
-        <Flex alignItems="center" justifyContent="space-between">
-          <Box></Box>
-          <Text mt={4}>
-            {user.description}
-          </Text>
-        </Flex>
       </CardBody>
     </Card>
   );
 };
 export default UserCard;
-
