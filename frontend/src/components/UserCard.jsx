@@ -71,7 +71,12 @@ const UserCard = ({ user, setUsers }) => {
         </Flex>
       </CardHeader>
       <CardBody>
-        <Text>{user.description}</Text>
+        <Flex alignItems="center" gap={4}>
+          <Text fontSize="sm" fontWeight="medium" color="gray.500">
+            Description:
+          </Text>
+          <Text fontSize="sm">{user.description}</Text>
+        </Flex>
       </CardBody>
     </Card>
   );
