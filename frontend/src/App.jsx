@@ -7,14 +7,22 @@ import { useState } from "react";
 export const BASE_URL =
   import.meta.env.MODE === "development" ? "http://127.0.0.1:5000/api" : "/api";
 
+/**
+ * Main App component.
+ * Renders the Navbar and UserGrid components.
+ * Updates the list of users using the setUsers function.
+ */
 function App() {
+  // State to hold the list of users
   const [users, setUsers] = useState([]);
 
   return (
     <Stack minH="100vh">
+      {/* Navbar component to display the app's name and a button to create a new user */}
       <Navbar setUsers={setUsers} />
 
       <Container maxW="1200px" my={4}>
+        {/* Heading with a gradient background */}
         <Text
           fontSize={{ base: "3xl", md: "50" }}
           fontWeight="bold"
@@ -33,6 +41,7 @@ function App() {
           📝
         </Text>
 
+        {/* UserGrid component to display the list of users */}
         <UserGrid users={users} setUsers={setUsers} />
       </Container>
     </Stack>

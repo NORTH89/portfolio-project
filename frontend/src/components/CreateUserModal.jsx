@@ -21,21 +21,38 @@ import { useState } from "react";
 import { BiAddToQueue } from "react-icons/bi";
 import { BASE_URL } from "../App";
 
+/**
+ * Component for creating a new user.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.setUsers - The function to update the list of users.
+ * @return {JSX.Element} The CreateUserModal component.
+ */
 const CreateUserModal = ({ setUsers }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
+  // State variables
+  const { isOpen, onOpen, onClose } = useDisclosure(); // Modal state
+  const [isLoading, setIsLoading] = useState(false); // Loading state
   const [inputs, setInputs] = useState({
-    name: "",
-    role: "",
-    description: "",
-    gender: "",
+    name: "", // User name
+    role: "", // User role
+    description: "", // User description
+    gender: "", // User gender
   });
-  const toast = useToast();
+  const toast = useToast(); // Toast notification
 
+  /**
+   * Handles the creation of a new user.
+   * Prevents page refresh and shows a success or error toast message.
+   * Clears the inputs after successful creation.
+   *
+   * @param {Event} e - The form submission event.
+   * @return {Promise<void>} - A promise that resolves when the user is created.
+   */
   const handleCreateUser = async (e) => {
     e.preventDefault(); // prevent page refresh
     setIsLoading(true);
     try {
+      // Send a POST request to create a new friend
       const res = await fetch(BASE_URL + "/friends", {
         method: "POST",
         headers: {
@@ -44,45 +61,51 @@ const CreateUserModal = ({ setUsers }) => {
         body: JSON.stringify(inputs),
       });
 
-      const data = await res.json();
+      const data = await res.json(); // Parse the response data
       if (!res.ok) {
-        throw new Error(data.error);
+        throw new Error(data.error); // Throw an error if the response is not ok
       }
 
       toast({
+        // Show a success toast message
         status: "success",
         title: "Yayy! 🎉",
         description: "Friend created successfully.",
         duration: 2000,
         position: "top-center",
       });
-      onClose();
-      setUsers((prevUsers) => [...prevUsers, data]);
+      onClose(); // Close the modal
+      setUsers((prevUsers) => [...prevUsers, data]); // Update the users state
 
       setInputs({
+        // Clear the inputs
         name: "",
         role: "",
         description: "",
         gender: "",
-      }); // clear inputs
+      });
     } catch (error) {
       toast({
+        // Show an error toast message
         status: "error",
         title: "An error occurred.",
         description: error.message,
         duration: 4000,
       });
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Set isLoading to false
     }
   };
 
+  // Render the component
   return (
     <>
+      {/* Button to open the modal */}
       <Button onClick={onOpen}>
         <BiAddToQueue size={20} />
       </Button>
 
+      {/* Modal for creating a new user */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleCreateUser}>

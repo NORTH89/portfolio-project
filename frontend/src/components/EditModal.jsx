@@ -20,21 +20,36 @@ import { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { BASE_URL } from "../App";
 
+/**
+ * EditModal component for editing user information.
+ * @param {Object} props - Component props.
+ * @param {Function} props.setUsers - Function to update the list of users.
+ * @param {Object} props.user - User object to be edited.
+ * @returns {JSX.Element} - Modal component for editing user information.
+ */
 function EditModal({ setUsers, user }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
+  // Hooks
+  const { isOpen, onOpen, onClose } = useDisclosure(); // Modal state management
+  const [isLoading, setIsLoading] = useState(false); // Loading state
   const [inputs, setInputs] = useState({
+    // User input state
     name: user.name,
     role: user.role,
     description: user.description,
   });
-  const toast = useToast();
+  const toast = useToast(); // Toast notification state
 
+  /**
+   * Handles the form submission for editing a user.
+   * @param {Event} e - The form submission event.
+   * @returns {Promise<void>} - A promise that resolves when the user is edited.
+   */
   const handleEditUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch(BASE_URL + "/friends/" + user.id, {
+      const res = await fetch(`${BASE_URL}/friends/${user.id}`, {
+        // Send PATCH request to update user
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +62,7 @@ function EditModal({ setUsers, user }) {
       }
       setUsers((prevUsers) =>
         prevUsers.map((u) => (u.id === user.id ? data : u))
-      );
+      ); // Update the list of users
       toast({
         status: "success",
         title: "Yayy! 🎉",
@@ -71,6 +86,7 @@ function EditModal({ setUsers, user }) {
 
   return (
     <>
+      {/* Render the modal and form */}
       <IconButton
         onClick={onOpen}
         variant="ghost"
@@ -84,10 +100,11 @@ function EditModal({ setUsers, user }) {
         <ModalOverlay />
         <form onSubmit={handleEditUser}>
           <ModalContent>
-            <ModalHeader>New Friend</ModalHeader>
+            <ModalHeader>Edit Friend</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <Flex alignItems={"center"} gap={4}>
+                {/* Render input fields for name and role */}
                 <FormControl>
                   <FormLabel>Full Name</FormLabel>
                   <Input
@@ -110,6 +127,7 @@ function EditModal({ setUsers, user }) {
                   />
                 </FormControl>
               </Flex>
+              {/* Render textarea field for description */}
               <FormControl mt={4}>
                 <FormLabel>Description</FormLabel>
                 <Textarea
