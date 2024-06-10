@@ -4,25 +4,48 @@ from models import Friend
 
 
 # Get all friends
-@app.route("/api/friends", methods=["GET"])
+
+
 def get_friends():
+    """
+    Get all friends from the database.
+
+    Returns:
+        json: A JSON object containing a list of friends.
+
+    """
+
+    # Get all friends from the database
     friends = Friend.query.all()
+
+    # Convert each friend to a JSON object
     result = [friend.to_json() for friend in friends]
+
+    # Return the JSON object
     return jsonify(result)
 
 
 # Create a friend
 @app.route("/api/friends", methods=["POST"])
 def create_friend():
+    """
+    Create a new friend in the database.
+
+    Returns:
+        json: A JSON object containing the created friend.
+
+    """
     try:
+        # Get the JSON data from the request
         data = request.json
 
-        # Validations
+        # Validate the required fields
         required_fields = ["name", "role", "description", "gender"]
         for field in required_fields:
             if field not in data or not data.get(field):
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
+        # Extract the data from the JSON object
         name = data.get("name")
         role = data.get("role")
         description = data.get("description")
@@ -36,6 +59,7 @@ def create_friend():
         else:
             img_url = None
 
+        # Create a new friend object
         new_friend = Friend(
             name=name,
             role=role,
@@ -44,13 +68,17 @@ def create_friend():
             img_url=img_url,
         )
 
+        # Add the new friend to the database
         db.session.add(new_friend)
         db.session.commit()
 
+        # Return the created friend as a JSON object
         return jsonify(new_friend.to_json()), 201
 
     except Exception as e:
+        # Rollback the database session in case of an error
         db.session.rollback()
+        # Return an error message as a JSON object
         return jsonify({"error": str(e)}), 500
 
 
